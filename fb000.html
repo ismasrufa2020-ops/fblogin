@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook – log in or sign up</title>
+    <style>
+        /* global reset & typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* main container – mimics fb layout */
+        .fb-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            max-width: 980px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* left side: logo + recent tagline */
+        .left-panel {
+            flex: 1 1 440px;
+            margin-bottom: 50px;
+        }
+
+        .fb-logo {
+            margin-left: -28px;       /* fine tune to match original spacing */
+        }
+
+        .fb-logo svg {
+            width: 300px;
+            height: 106px;
+        }
+
+        .recently-text {
+            font-size: 28px;
+            font-weight: normal;
+            color: #1c1e21;
+            line-height: 32px;
+            width: 500px;
+            padding-left: 30px;        /* aligns with logo visual */
+            margin-top: -10px;
+        }
+
+        /* right side: login card + extra links */
+        .right-panel {
+            flex: 0 0 396px;
+            text-align: center;
+        }
+
+        .login-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 20px 16px 28px 16px;
+            width: 100%;
+            margin-bottom: 28px;
+        }
+
+        /* form elements */
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .login-form input {
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            font-size: 17px;
+            padding: 14px 16px;
+            outline: none;
+            transition: border 0.1s, box-shadow 0.1s;
+        }
+
+        .login-form input:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 2px #e7f3ff;
+        }
+
+        .login-form input::placeholder {
+            color: #90949c;
+        }
+
+        .login-btn {
+            background-color: #1877f2;
+            border: none;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .login-btn:hover {
+            background-color: #166fe5;
+        }
+
+        .forgot-password {
+            color: #1877f2;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            margin: 8px 0 16px 0;
+            display: inline-block;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        hr.divider {
+            border: none;
+            border-top: 1px solid #dadde1;
+            margin: 16px 0 24px 0;
+        }
+
+        .new-account-btn {
+            background-color: #42b72a;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: bold;
+            color: white;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: fit-content;
+            margin: 0 auto;
+            line-height: 1;
+        }
+
+        .new-account-btn:hover {
+            background-color: #36a420;
+        }
+
+        /* create a page link under card */
+        .create-page {
+            font-size: 14px;
+            color: #1c1e21;
+            border-top: none;
+            margin-top: 10px;
+        }
+
+        .create-page a {
+            color: #1c1e21;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .create-page a:hover {
+            text-decoration: underline;
+        }
+
+        /* footer – simplified like real fb */
+        .footer {
+            margin-top: 50px;
+            color: #737373;
+            font-size: 12px;
+            max-width: 980px;
+            width: 100%;
+            padding: 20px 0;
+            border-top: 1px solid #dddfe2;
+        }
+
+        .footer-langs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            list-style: none;
+            margin-bottom: 8px;
+        }
+
+        .footer-langs li a {
+            color: #737373;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .footer-langs li a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-line {
+            margin: 8px 0;
+        }
+
+        hr.footer-hr {
+            border: none;
+            border-top: 1px solid #dddfe2;
+            margin: 10px 0 8px 0;
+        }
+
+        .footer-copyright {
+            color: #737373;
+            font-size: 11px;
+        }
+
+        /* responsive adjustment */
+        @media (max-width: 900px) {
+            .fb-container {
+                gap: 30px;
+            }
+            .left-panel {
+                text-align: center;
+            }
+            .fb-logo {
+                margin-left: 0;
+            }
+            .recently-text {
+                font-size: 24px;
+                width: auto;
+                padding-left: 0;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .fb-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .right-panel {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fb-container">
+        <!-- left side: facebook branding (exact replica) -->
+        <div class="left-panel">
+            <div class="fb-logo">
+                <!-- facebook 2025 logotype (SVG from official brand) -->
+                <svg viewBox="0 0 320 70" fill="#1877f2" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" transform="scale(0.055)"/>
+                </svg>
+            </div>
+            <div class="recently-text">
+                Recent logins
+            </div>
+            <!-- (the placeholder text below is usually followed by profile tiles, but we keep minimal to match "same to same" structure, though actual fb also shows avatars; to keep it clean we omit tiles but maintain the original messaging. Optionally we can add the exact phrase with grey profile placeholders but the task asks for log in page identical. we keep the essential recent logins headline with the sub line exactly as fb -->
+            <div style="color: #606770; font-size: 15px; margin-top: 8px; padding-left: 30px;">Click your picture or add an account.</div>
+            <!-- minimal profile tile placeholder to mirror layout (optional, but without it the page feels empty. We add two subtle circles to be realistic) -->
+            <div style="display: flex; gap: 16px; margin-top: 20px; padding-left: 30px;">
+                <div style="text-align: center;">
+                    <div style="width: 80px; height: 80px; background: #e4e6eb; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
+                    <div style="font-size: 13px; color: #4b4f56; font-weight: 600; margin-top: 8px;">Guest</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="width: 80px; height: 80px; background: #e4e6eb; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; font-size: 36px; color:#b0b3b8;">+</div>
+                    <div style="font-size: 13px; color: #4b4f56; font-weight: 600; margin-top: 8px;">Add account</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- right side: login card and footer-like link -->
+        <div class="right-panel">
+            <div class="login-card">
+                <form class="login-form" action="#" method="post">
+                    <input type="text" placeholder="Email address or phone number" value="" aria-label="Email or phone">
+                    <input type="password" placeholder="Password" value="" aria-label="Password">
+                    <button type="submit" class="login-btn">Log in</button>
+                </form>
+                <a href="#" class="forgot-password">Forgotten password?</a>
+                <hr class="divider">
+                <button class="new-account-btn">Create new account</button>
+            </div>
+            <div class="create-page">
+                <a href="#">Create a Page</a> for a celebrity, brand or business.
+            </div>
+        </div>
+    </div>
+
+    <!-- simplified meta footer (facebook style) -->
+    <footer class="footer">
+        <ul class="footer-langs">
+            <li><a href="#">English (UK)</a></li>
+            <li><a href="#">Français (France)</a></li>
+            <li><a href="#">Deutsch</a></li>
+            <li><a href="#">Italiano</a></li>
+            <li><a href="#">Português (Brasil)</a></li>
+            <li><a href="#">Español</a></li>
+            <li><a href="#">العربية</a></li>
+            <li><a href="#">中文(简体)</a></li>
+            <li><a href="#">日本語</a></li>
+            <li><a href="#" style="font-weight:600;">+</a></li>
+        </ul>
+        <hr class="footer-hr">
+        <div class="footer-line">
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Sign Up</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Log in</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Messenger</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Facebook Lite</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Video</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Places</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Games</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Marketplace</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Meta Pay</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Meta Store</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Meta Quest</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Instagram</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Threads</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Fundraisers</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Services</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Voting Information Centre</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Privacy Policy</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Privacy Centre</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Groups</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">About</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Create ad</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Create Page</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Developers</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Careers</a>
+            <a href="#" style="color:#737373; text-decoration:none; margin-right:16px;">Cookies</a>
+            <a href="#" style="color:#737373; text-decoration:none;">AdChoices</a>
+        </div>
+        <div class="footer-copyright" style="margin-top:16px;">
+            Meta © 2025
+        </div>
+    </footer>
+
+    <!-- subtle note: behaviour identical to real fb – forms are non-submitting demo -->
+</body>
+</html>
